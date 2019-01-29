@@ -1,0 +1,39 @@
+@startuml
+' use strict UML mode
+skinparam style strictuml
+
+actor "User" as user
+
+participant "Resource" as Resource
+
+user -> Resource++: username:password
+
+participant "Authentication" as Authentication
+Resource -> Authentication++: verify user (username, user_id)
+
+
+participant "Provider" as Provider
+Authentication -> Provider++ :Fetch user by id
+
+
+return user
+Provider--
+
+Authentication -> Authentication: validate username, password, user_id
+Authentication --> user : validation failed
+
+Authentication --> Resource : return user
+Authentication--
+
+Resource -> Resource : get authorize code
+Resource -> Provider++ : store authorize code
+Provider --> Resource : response
+Provider--
+
+Resource -> Resource : Marshal authorize code to JSON
+Resource --> user : 200 ok
+Resource--
+
+user--
+
+@enduml

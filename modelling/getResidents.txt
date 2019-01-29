@@ -1,0 +1,40 @@
+@startuml
+' use strict UML mode
+skinparam style strictuml
+
+actor "User" as user
+
+participant "Web Page" as webPage
+
+user -> webPage++: interact
+
+participant "Ajax" as Ajax 
+webPage -> Ajax++: interact
+
+
+participant "PHP" as PHP
+Ajax -> PHP++ :JSON
+
+participant "Models" as Models
+PHP -> Models++ :query()
+
+participant "Database" as Database
+Models ->Database++: query()
+return residents
+Database--
+
+Models -->PHP: resource(Residents)
+Models--
+
+PHP -->Ajax:JSON
+PHP--
+
+Ajax ->Ajax: update
+
+Ajax--> webPage: display
+Ajax--
+
+webPage-->user: A list of residents 
+webPage--
+
+@enduml

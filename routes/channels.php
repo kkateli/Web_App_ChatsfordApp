@@ -1,0 +1,3 @@
+<?php
+
+// Ignore this file.
